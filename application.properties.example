@@ -1,0 +1,11 @@
+SQS_QUEUE_URL=https://sqs.us-east-1.amazonaws.com/123456789012/document-status-retry
+SARVAM_OCR_BASE_URL=https://api.sarvam.ai
+SARVAM_OCR_API_KEY=
+SARVAM_OCR_STATUS_PATH=/doc-ai/v1/job/%s/status
+SARVAM_OCR_RESULTS_PATH=/doc-ai/v1/job/%s/results
+SARVAM_OCR_SCHEMA={"type":"object","properties":{"policy_number":{"type":"string","description":"Insurance policy number"},"insured_name":{"type":"string","description":"Name of the insured person"},"sum_insured":{"type":"number","description":"Total sum insured, in INR"}}}
+SARVAM_OCR_POLL_INTERVAL_MS=2000
+SARVAM_OCR_MAX_WAIT_SECONDS=120
+DOCUMENT_STATUS_FIELD=status
+SARVAM_OCR_SUCCESS_STATUS=completed
+API_TIMEOUT_SECONDS=20
