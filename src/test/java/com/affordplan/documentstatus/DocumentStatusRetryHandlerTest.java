@@ -3,14 +3,11 @@ package com.affordplan.documentstatus;
 import com.amazonaws.services.lambda.runtime.Context;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
 
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -25,17 +22,17 @@ class DocumentStatusRetryHandlerTest {
     private static final String QUEUE_URL = "https://sqs.example.test/document-status-retry";
 
     @BeforeAll
-    static void configure(@TempDir Path directory) throws Exception {
-        Path config = directory.resolve("application.properties");
-        Files.writeString(config, """
-                SQS_QUEUE_URL=%s
-                SARVAM_OCR_BASE_URL=https://api.example.test
-                SARVAM_OCR_API_KEY=test-key
-                SARVAM_OCR_STATUS_PATH=/doc-ai/v1/job/%%s/status
-                SARVAM_OCR_RESULTS_PATH=/doc-ai/v1/job/%%s/results
-                SARVAM_OCR_POLL_INTERVAL_MS=2000
-                """.formatted(QUEUE_URL));
-        System.setProperty("APP_CONFIG_FILE", config.toString());
+    static void configure() {
+        System.setProperty("APP_CONFIG_FILE", "/path/that/does/not/exist.properties");
+        System.setProperty("SQS_QUEUE_URL", QUEUE_URL);
+        System.setProperty("SARVAM_OCR_BASE_URL", "https://api.example.test");
+        System.setProperty("SARVAM_OCR_API_KEY", "test-key");
+        System.setProperty("SARVAM_OCR_STATUS_PATH", "/doc-ai/v1/job/%s/status");
+        System.setProperty("SARVAM_OCR_RESULTS_PATH", "/doc-ai/v1/job/%s/results");
+        System.setProperty("SARVAM_OCR_POLL_INTERVAL_MS", "2000");
+        System.setProperty("DOCUMENT_STATUS_FIELD", "status");
+        System.setProperty("SARVAM_OCR_SUCCESS_STATUS", "completed");
+        System.setProperty("API_TIMEOUT_SECONDS", "20");
     }
 
     @Test
